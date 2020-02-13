@@ -3,7 +3,6 @@ import App from './App.vue'
 import router from './router'
 import store from './store'
 import TelegramApi from '@/telegram-api'
-// import MTProto from '../mtproto2-browser'
 import MTProto from 'telegram-mtproto'
 
 Vue.config.productionTip = false
