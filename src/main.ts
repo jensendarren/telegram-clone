@@ -14,8 +14,8 @@ const phone = {
 }
 
 const config = {
-  id: 111111, // https://my.telegram.org/apps
-  hash: 'SOMEHASHFROMTELEGRAMAPPS'
+  id: 1111111, // https://my.telegram.org/apps
+  hash: 'SOMEBIGNUMBERFROMTELEGRAM'
 };
 
 const api = {
@@ -31,6 +31,26 @@ const server = {
 const client = MTProto({ server, api })
 
 const telegramApi = new TelegramApi(config, client);
+
+// Uncomment below to test this!
+
+// async function connect(){
+//   const { phone_code_hash } = await client('auth.sendCode', {
+//     phone_number  : phone.num,
+//     current_number: false,
+//     api_id        : 49631,
+//     api_hash      : 'fb050b8f6771e15bfda5df2409931569'
+//   })
+//   const { user } = await client('auth.signIn', {
+//     phone_number   : phone.num,
+//     phone_code_hash: phone_code_hash,
+//     phone_code     : phone.code
+//   })
+
+//   console.log('signed as ', user)
+// }
+
+// connect()
 
 new Vue({
   router,
