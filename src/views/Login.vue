@@ -19,7 +19,8 @@
           </div> -->
 
           <div id="login_phoneInputContainer" class="input-container">
-              <input id="login_phoneInput" type="tel" placeholder="Phone Number">
+              <input id="login_phoneInput" type="tel" placeholder="Phone Number" :value="phoneNumber">
+              <!-- <input v-model="message" placeholder="edit me"> -->
               <label for="login_phoneInput">Phone Number</label>
           </div>
 
@@ -38,10 +39,21 @@
 <script lang="ts">
 import Vue from 'vue'
 import router from '@/router'
+import Component from 'vue-class-component'
+import telegramApi from '@/telegram-api'
 
+@Component({})
 export default class Login extends Vue {
+  phoneNumber = '+85512223344'
+
   moveToEnterCode() {
-    router.push('/entercode')
+    telegramApi.sendCode(this.phoneNumber).then(result => {
+        console.log(result)
+    })
+    .catch(e => {
+        console.error(e);
+    });
+    // router.push('/entercode')
   }
 }
 </script>
