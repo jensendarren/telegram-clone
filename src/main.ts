@@ -7,14 +7,9 @@ import TelegramApi from '@/telegram-api'
 
 Vue.config.productionTip = false
 
-const phone = {
-    num : '+9996620001',
-    code: '22222'
-}
-
 const config = {
-    id: 1061423, // https://my.telegram.org/apps
-    hash: '219d8193583c9d5d9f78f270dafa2653'
+  id: 111111, // https://my.telegram.org/apps
+  hash: 'SOMEBIGNUMBERFROMTELEGRAM'
 };
 
 const api = {
