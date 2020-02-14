@@ -2,32 +2,37 @@ import Vue from 'vue'
 import App from './App.vue'
 import router from './router'
 import store from './store'
-// import TelegramApi from '@/telegram-api'
+import MTProto from 'telegram-mtproto'
+import TelegramApi from '@/telegram-api'
 
 Vue.config.productionTip = false
 
-// Vue.prototype.$telegramApi = telegramApi
+const phone = {
+    num : '+9996620001',
+    code: '22222'
+}
 
+const config = {
+    id: 1061423, // https://my.telegram.org/apps
+    hash: '219d8193583c9d5d9f78f270dafa2653'
+};
 
-// Uncomment below to test this!
+const api = {
+    layer          : 57,
+    initConnection : 0x69796de9,
+    api_id         : 49631
+}
 
-// async function connect(){
-//   const { phone_code_hash } = await client('auth.sendCode', {
-//     phone_number  : phone.num,
-//     current_number: false,
-//     api_id        : 49631,
-//     api_hash      : 'fb050b8f6771e15bfda5df2409931569'
-//   })
-//   const { user } = await client('auth.signIn', {
-//     phone_number   : phone.num,
-//     phone_code_hash: phone_code_hash,
-//     phone_code     : phone.code
-//   })
+const server = {
+    dev: true
+}
 
-//   console.log('signed as ', user)
-// }
+const client = MTProto({ server, api })
 
-// connect()
+const telegramApi = new TelegramApi(config, client);
+
+Vue.prototype.$appName = 'Telegram VueJS Clone'
+Vue.prototype.$telegramApi = telegramApi
 
 new Vue({
   router,
