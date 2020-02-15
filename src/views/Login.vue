@@ -19,10 +19,11 @@
               <label for="login_countryInput">Country</label>
               <div class="select-items"></div>
           </div> -->
-          <div v-if="!showEnterCode">
+
+          <div>
             <div id="login_phoneInputContainer" class="input-container">
-                <input id="login_phoneInput" type="tel" placeholder="Phone Number" :value="phoneNumber">
-                <!-- <input v-model="message" placeholder="edit me"> -->
+                <h3>{{phoneNumberReversed}}</h3>
+                <input id="login_phoneInput" type="tel" placeholder="Phone Number" v-model="phoneNumber">
                 <label for="login_phoneInput">Phone Number</label>
             </div>
 
@@ -31,17 +32,7 @@
                 <span class="checkmark"></span>
             </label> -->
 
-            <!-- <a id="login_button" class="btn btn-primary">Next</a> -->
-            <button id="login_button" @click="moveToEnterCode">Next</button>
-          </div>
-
-          <div v-if="showEnterCode">
-            <div id="enterCode_inputContainer" class="input-container">
-              <input id="enterCode_input" type="text" placeholder="Code" v-model="code" maxlength="5">
-              <label for="enterCode_input">Code</label>
-            </div>
-
-            <button id="enterCode_button" @click="enterCode">Enter Code</button>
+            <button id="login_button" @click="sendCode">Next</button>
           </div>
       </div>
     </div>
@@ -52,35 +43,35 @@
 import Vue from 'vue'
 import router from '@/router'
 import Component from 'vue-class-component'
+import { mapState, mapGetters } from 'vuex'
 
-@Component({})
+@Component({
+  computed: {
+    phoneNumber: {
+      get() {
+        return this.$store.state.phoneNumber
+      },
+      set(value) {
+        this.$store.commit('updatePhoneNumber', value)
+      }
+    },
+    ...mapGetters(['phoneNumberReversed'])
+  },
+})
 export default class Login extends Vue {
-  phoneNumber = '+9996620000'
-  phoneCodeHash = ''
-  showEnterCode = false
-  code = '22222'
+  phoneNumber
   $appName
   $telegramApi
 
-  moveToEnterCode() {
+  sendCode() {
+    const { dispatch } = this.$store
     this.$telegramApi.sendCode(this.phoneNumber).then(result => {
-        this.phoneCodeHash = result.phone_code_hash;
-        this.showEnterCode = true
-        console.log(result)
+        dispatch('setPhoneCodeHash', result.phone_code_hash)
+        router.push('/entercode')
     })
     .catch(e => {
-        console.error(e);
-    });
-    // router.push('/entercode')
-  }
-
-  enterCode() {
-    this.$telegramApi.signIn(this.code, this.phoneNumber, this.phoneCodeHash).then(user => {
-        console.log(user)
-    }).catch(e => {
         console.error(e);
     });
   }
 }
 </script>
-
